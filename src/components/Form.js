@@ -99,15 +99,16 @@ class Form extends React.Component {
           </select>
         </label>
         <label htmlFor="trunfo-input">
-          <input
+          { hasTrunfo && <p>Você já tem um Super Trunfo em seu baralho</p>}
+          { !hasTrunfo && <input
             id="trunfo-input"
             data-testid="trunfo-input"
             type="checkbox"
             name="cardTrunfo"
             checked={ cardTrunfo }
             onChange={ onInputChange }
-          />
-          Super Trybe Trunfo
+          />}
+          { !hasTrunfo && <p>Super Trybe Trunfo</p>}
         </label>
         <button
           type="submit"

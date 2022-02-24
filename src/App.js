@@ -58,6 +58,10 @@ class App extends React.Component {
       cardTrunfo,
     };
 
+    if (cardTrunfo === true) {
+      this.setState({ hasTrunfo: true });
+    }
+
     this.addNewCard(newCard);
 
     this.setState({
@@ -83,6 +87,7 @@ class App extends React.Component {
       cardAttr2,
       cardAttr3,
       cardImage,
+      cardTrunfo,
     } = this.state;
     const smaller = 0;
     const limit = 90;
