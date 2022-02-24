@@ -24,6 +24,7 @@ class App extends React.Component {
     this.validateForm = this.validateForm.bind(this);
     this.addNewCard = this.addNewCard.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.removeCard = this.removeCard.bind(this);
   }
 
   onInputChange({ target }) {
@@ -78,6 +79,17 @@ class App extends React.Component {
 
   addNewCard(card) {
     this.setState((prevState) => ({ savedCards: [...prevState.savedCards, card] }));
+  }
+
+  removeCard(event) {
+    event.preventDefault();
+    const name = event.target.parentElement.id;
+    const { savedCards } = this.state;
+
+    this.setState({
+      hasTrunfo: false,
+      savedCards: savedCards.filter((element) => element.cardName !== name),
+    });
   }
 
   validateForm() {
@@ -153,17 +165,25 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
         />
         {savedCards.map((element) => (
-          <Card
-            key={ element.cardName }
-            cardName={ element.cardName }
-            cardDescription={ element.cardDescription }
-            cardAttr1={ element.cardAttr1 }
-            cardAttr2={ element.cardAttr2 }
-            cardAttr3={ element.cardAttr3 }
-            cardImage={ element.cardImage }
-            cardRare={ element.cardRare }
-            cardTrunfo={ element.cardTrunfo }
-          />
+          <div className="eachCard" key={ element.cardName } id={ element.cardName }>
+            <Card
+              cardName={ element.cardName }
+              cardDescription={ element.cardDescription }
+              cardAttr1={ element.cardAttr1 }
+              cardAttr2={ element.cardAttr2 }
+              cardAttr3={ element.cardAttr3 }
+              cardImage={ element.cardImage }
+              cardRare={ element.cardRare }
+              cardTrunfo={ element.cardTrunfo }
+            />
+            <button
+              type="submit"
+              data-testid="delete-button"
+              onClick={ this.removeCard }
+            >
+              Excluir
+            </button>
+          </div>
         ))}
       </div>
     );
