@@ -13,13 +13,14 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
     };
 
     this.onInputChange = this.onInputChange.bind(this);
+    this.validateForm = this.validateForm.bind(this);
     // this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
   }
 
@@ -28,7 +29,38 @@ class App extends React.Component {
     const value = (target.type === 'checkbox') ? target.checked : target.value;
     this.setState({
       [name]: value,
-    });
+    }, () => this.validateForm());
+  }
+
+  validateForm() {
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+    } = this.state;
+    const smaller = 0;
+    const limit = 90;
+    const sumLimit = 210;
+    const toNumber = (string) => parseInt(string, 10);
+    if (
+      cardName !== ''
+      && cardDescription !== ''
+      && smaller <= toNumber(cardAttr1)
+      && toNumber(cardAttr1) <= limit
+      && smaller <= toNumber(cardAttr2)
+      && toNumber(cardAttr2) <= limit
+      && smaller <= toNumber(cardAttr3)
+      && toNumber(cardAttr3) <= limit
+      && toNumber(cardAttr1) + toNumber(cardAttr2) + toNumber(cardAttr3) <= sumLimit
+      && cardImage !== ''
+    ) {
+      this.setState({ isSaveButtonDisabled: false });
+    } else {
+      this.setState({ isSaveButtonDisabled: true });
+    }
   }
 
   render() {
