@@ -198,17 +198,17 @@ class App extends React.Component {
             </div>
           )))}
         {(filterTrunfo === false && filterName === '' && filterRare === '')
-          ? savedCards.map((element) => (
-            <div className="eachCard" key={ element.cardName } id={ element.cardName }>
+          ? savedCards.map((it) => (
+            <div className="eachCard" key={ it.cardName } id={ it.cardName }>
               <Card
-                cardName={ element.cardName }
-                cardDescription={ element.cardDescription }
-                cardAttr1={ element.cardAttr1 }
-                cardAttr2={ element.cardAttr2 }
-                cardAttr3={ element.cardAttr3 }
-                cardImage={ element.cardImage }
-                cardRare={ element.cardRare }
-                cardTrunfo={ element.cardTrunfo }
+                cardName={ it.cardName }
+                cardDescription={ it.cardDescription }
+                cardAttr1={ it.cardAttr1 }
+                cardAttr2={ it.cardAttr2 }
+                cardAttr3={ it.cardAttr3 }
+                cardImage={ it.cardImage }
+                cardRare={ it.cardRare }
+                cardTrunfo={ it.cardTrunfo }
               />
               <button
                 type="submit"
@@ -218,8 +218,10 @@ class App extends React.Component {
                 Excluir
               </button>
             </div>))
-          : savedCards.filter((card) => card.cardName.includes(filterName))
-            .filter((each) => each.cardRare === filterRare)
+          : savedCards.filter((card) => (
+            card.cardName.includes(filterName)))
+            .filter((each) => each.cardRare === filterRare
+              || (filterRare === '' && filterTrunfo === false))
             .map((element) => (
               <div className="eachCard" key={ element.cardName } id={ element.cardName }>
                 <Card
@@ -245,5 +247,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;

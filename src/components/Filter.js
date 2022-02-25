@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Filter extends React.Component {
   render() {
-    const { filterCard, onInputChange, filterTrunfo } = this.props;
+    const { onInputChange, filterTrunfo } = this.props;
     return (
       <form id="filter">
         <h2>Todas as Cartas</h2>
@@ -42,5 +43,10 @@ class Filter extends React.Component {
     );
   }
 }
+
+Filter.propTypes = {
+  onInputChange: PropTypes.func.isRequired,
+  filterTrunfo: PropTypes.bool.isRequired,
+};
 
 export default Filter;
