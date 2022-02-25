@@ -20,6 +20,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       savedCards: [],
       filterName: '',
+      filterRare: '',
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -139,6 +140,7 @@ class App extends React.Component {
       isSaveButtonDisabled,
       savedCards,
       filterName,
+      filterRare,
     } = this.state;
     return (
       <div>
@@ -170,7 +172,7 @@ class App extends React.Component {
         <Filter
           onInputChange={ this.onInputChange }
         />
-        {(filterName === '')
+        {(filterName === '' && filterRare === '')
           ? savedCards.map((element) => (
             <div className="eachCard" key={ element.cardName } id={ element.cardName }>
               <Card
@@ -192,6 +194,7 @@ class App extends React.Component {
               </button>
             </div>))
           : savedCards.filter((card) => card.cardName.includes(filterName))
+            .filter((each) => each.cardRare === filterRare)
             .map((element) => (
               <div className="eachCard" key={ element.cardName } id={ element.cardName }>
                 <Card

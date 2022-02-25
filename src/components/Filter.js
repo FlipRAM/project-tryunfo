@@ -14,6 +14,12 @@ class Filter extends React.Component {
           placeholder="Nome da carta"
           onChange={ onInputChange }
         />
+        <select data-testid="rare-filter" name="filterRare" onChange={ onInputChange }>
+          <option selected value="">todas</option>
+          <option value="normal">Normal</option>
+          <option value="raro">Raro</option>
+          <option value="muito raro">Muito raro</option>
+        </select>
         <button type="submit">Buscar</button>
       </form>
     );
