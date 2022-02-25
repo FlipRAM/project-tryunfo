@@ -21,6 +21,7 @@ class App extends React.Component {
       savedCards: [],
       filterName: '',
       filterRare: '',
+      filterTrunfo: false,
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -141,6 +142,7 @@ class App extends React.Component {
       savedCards,
       filterName,
       filterRare,
+      filterTrunfo,
     } = this.state;
     return (
       <div>
@@ -171,8 +173,31 @@ class App extends React.Component {
         />
         <Filter
           onInputChange={ this.onInputChange }
+          filterTrunfo={ filterTrunfo }
         />
-        {(filterName === '' && filterRare === '')
+        {(filterTrunfo && savedCards.filter((it) => it.cardTrunfo === true)
+          .map((element) => (
+            <div className="eachCard" key={ element.cardName } id={ element.cardName }>
+              <Card
+                cardName={ element.cardName }
+                cardDescription={ element.cardDescription }
+                cardAttr1={ element.cardAttr1 }
+                cardAttr2={ element.cardAttr2 }
+                cardAttr3={ element.cardAttr3 }
+                cardImage={ element.cardImage }
+                cardRare={ element.cardRare }
+                cardTrunfo={ element.cardTrunfo }
+              />
+              <button
+                type="submit"
+                data-testid="delete-button"
+                onClick={ this.removeCard }
+              >
+                Excluir
+              </button>
+            </div>
+          )))}
+        {(filterTrunfo === false && filterName === '' && filterRare === '')
           ? savedCards.map((element) => (
             <div className="eachCard" key={ element.cardName } id={ element.cardName }>
               <Card
