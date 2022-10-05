@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Form.css';
 
 class Form extends React.Component {
   render() {
@@ -16,9 +17,13 @@ class Form extends React.Component {
       isSaveButtonDisabled,
       onInputChange,
       onSaveButtonClick,
+      attr1Name,
+      attr2Name,
+      attr3Name,
     } = this.props;
     return (
       <form>
+        <h2>Adicionar nova carta</h2>
         <label htmlFor="name-input">
           Name:
           <input
@@ -36,12 +41,22 @@ class Form extends React.Component {
             id="description-input"
             data-testid="description-input"
             name="cardDescription"
+            rows="4"
+            cols="30"
             value={ cardDescription }
             onChange={ onInputChange }
           />
         </label>
         <label htmlFor="attr1-input">
           Attr1:
+          <input
+            id="attr1-name"
+            type="text"
+            name="attr1Name"
+            value={ attr1Name }
+            onChange={ onInputChange }
+          />
+          Valor:
           <input
             id="attr1-input"
             type="number"
@@ -54,6 +69,14 @@ class Form extends React.Component {
         <label htmlFor="attr2-input">
           Attr2:
           <input
+            id="attr2-name"
+            type="text"
+            name="attr2Name"
+            value={ attr2Name }
+            onChange={ onInputChange }
+          />
+          Valor:
+          <input
             id="attr2-input"
             type="number"
             data-testid="attr2-input"
@@ -64,6 +87,14 @@ class Form extends React.Component {
         </label>
         <label htmlFor="attr3-input">
           Attr3:
+          <input
+            id="attr3-name"
+            type="text"
+            name="attr3Name"
+            value={ attr3Name }
+            onChange={ onInputChange }
+          />
+          Valor:
           <input
             id="attr3-input"
             type="number"
@@ -98,7 +129,7 @@ class Form extends React.Component {
             <option value="muito raro">Muito raro</option>
           </select>
         </label>
-        <label htmlFor="trunfo-input">
+        <label id="trunfo" htmlFor="trunfo-input">
           { hasTrunfo && <p>Você já tem um Super Trunfo em seu baralho</p>}
           { !hasTrunfo && <input
             id="trunfo-input"
@@ -115,6 +146,7 @@ class Form extends React.Component {
           data-testid="save-button"
           disabled={ isSaveButtonDisabled }
           onClick={ onSaveButtonClick }
+          className="btn btn-primary"
         >
           Salvar
         </button>
@@ -136,6 +168,9 @@ Form.propTypes = {
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,
+  attr1Name: PropTypes.string.isRequired,
+  attr2Name: PropTypes.string.isRequired,
+  attr3Name: PropTypes.string.isRequired,
 };
 
 export default Form;

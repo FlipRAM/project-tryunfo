@@ -1,7 +1,10 @@
+/* eslint-disable max-lines */
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
 import Filter from './components/Filter';
+import Game from './components/Game';
+import './App.css';
 
 class App extends React.Component {
   constructor() {
@@ -22,6 +25,12 @@ class App extends React.Component {
       filterName: '',
       filterRare: '',
       filterTrunfo: false,
+      attr1Name: '',
+      attr2Name: '',
+      attr3Name: '',
+      isGameStarted: false,
+      arrayGame: [],
+      index: 0,
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -29,6 +38,9 @@ class App extends React.Component {
     this.addNewCard = this.addNewCard.bind(this);
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.removeCard = this.removeCard.bind(this);
+    this.playGame = this.playGame.bind(this);
+    this.returnCardOfGame = this.returnCardOfGame.bind(this);
+    this.nextCardOfGame = this.nextCardOfGame.bind(this);
   }
 
   onInputChange({ target }) {
@@ -68,7 +80,6 @@ class App extends React.Component {
     }
 
     this.addNewCard(newCard);
-
     this.setState({
       cardName: '',
       cardDescription: '',
@@ -127,6 +138,49 @@ class App extends React.Component {
     }
   }
 
+  playGame(event) {
+    event.preventDefault();
+    const { savedCards } = this.state;
+    const control = 0.5;
+    const newArray = savedCards.sort(() => Math.random() - control);
+    this.setState({ isGameStarted: true, arrayGame: newArray });
+  }
+
+  nextCardOfGame() {
+    const { index, arrayGame } = this.state;
+    const increment = index + 1;
+    if (increment < arrayGame.length) {
+      this.setState({ index: increment });
+    } if (increment >= arrayGame.length) {
+      this.setState({ isGameStarted: false });
+    }
+  }
+
+  returnCardOfGame() {
+    const { arrayGame, index, attr1Name, attr2Name, attr3Name } = this.state;
+    const card = arrayGame[index];
+    return (
+      <div id="Game">
+        <h2>Game is ON!</h2>
+        <Game
+          cardName={ card.cardName }
+          cardDescription={ card.cardDescription }
+          cardAttr1={ card.cardAttr1 }
+          cardAttr2={ card.cardAttr2 }
+          cardAttr3={ card.cardAttr3 }
+          cardImage={ card.cardImage }
+          cardRare={ card.cardRare }
+          cardTrunfo={ card.cardTrunfo }
+          attr1Name={ attr1Name }
+          attr2Name={ attr2Name }
+          attr3Name={ attr3Name }
+          nextCardOfGame={ this.nextCardOfGame }
+        />
+        <p id="rest">{`Cartas restantes: ${(arrayGame.length - index) - 1}`}</p>
+      </div>
+    );
+  }
+
   render() {
     const {
       cardName,
@@ -143,10 +197,14 @@ class App extends React.Component {
       filterName,
       filterRare,
       filterTrunfo,
+      attr1Name,
+      attr2Name,
+      attr3Name,
+      isGameStarted,
     } = this.state;
     return (
-      <div>
-        <h1>Tryunfo!</h1>
+      <div id="content">
+        <h1>Tryunfo</h1>
         <Form
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
@@ -160,17 +218,26 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
+          attr1Name={ attr1Name }
+          attr2Name={ attr2Name }
+          attr3Name={ attr3Name }
         />
-        <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-        />
+        <div id="preview-card">
+          <h2>Preview da carta</h2>
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            attr1Name={ attr1Name }
+            attr2Name={ attr2Name }
+            attr3Name={ attr3Name }
+          />
+        </div>
         <Filter
           onInputChange={ this.onInputChange }
           filterTrunfo={ filterTrunfo }
@@ -187,11 +254,15 @@ class App extends React.Component {
                 cardImage={ element.cardImage }
                 cardRare={ element.cardRare }
                 cardTrunfo={ element.cardTrunfo }
+                attr1Name={ attr1Name }
+                attr2Name={ attr2Name }
+                attr3Name={ attr3Name }
               />
               <button
                 type="submit"
                 data-testid="delete-button"
                 onClick={ this.removeCard }
+                className="btn btn-primary"
               >
                 Excluir
               </button>
@@ -209,11 +280,15 @@ class App extends React.Component {
                 cardImage={ it.cardImage }
                 cardRare={ it.cardRare }
                 cardTrunfo={ it.cardTrunfo }
+                attr1Name={ attr1Name }
+                attr2Name={ attr2Name }
+                attr3Name={ attr3Name }
               />
               <button
                 type="submit"
                 data-testid="delete-button"
                 onClick={ this.removeCard }
+                className="btn btn-primary"
               >
                 Excluir
               </button>
@@ -233,16 +308,31 @@ class App extends React.Component {
                   cardImage={ element.cardImage }
                   cardRare={ element.cardRare }
                   cardTrunfo={ element.cardTrunfo }
+                  attr1Name={ attr1Name }
+                  attr2Name={ attr2Name }
+                  attr3Name={ attr3Name }
                 />
                 <button
                   type="submit"
                   data-testid="delete-button"
                   onClick={ this.removeCard }
+                  className="btn btn-primary"
                 >
                   Excluir
                 </button>
               </div>
             ))}
+        <button
+          type="submit"
+          onClick={ this.playGame }
+          className="btn btn-primary"
+          id="iniciate-game"
+        >
+          Iniciar Jogo
+        </button>
+        {(isGameStarted)
+          ? this.returnCardOfGame()
+          : null}
       </div>
     );
   }

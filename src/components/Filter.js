@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Filter.css';
 
 class Filter extends React.Component {
   render() {
@@ -27,7 +28,7 @@ class Filter extends React.Component {
           <option value="raro">Raro</option>
           <option value="muito raro">Muito raro</option>
         </select>
-        <label htmlFor="trunfo-filter">
+        <label id="filterIsTrunfo" htmlFor="trunfo-filter">
           <input
             id="trunfo-filter"
             name="filterTrunfo"
@@ -38,7 +39,7 @@ class Filter extends React.Component {
           />
           Super Trunfo
         </label>
-        <button type="submit">Buscar</button>
+        <button type="submit" className="btn btn-primary">Buscar</button>
       </form>
     );
   }
